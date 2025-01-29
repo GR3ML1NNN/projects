@@ -1,4 +1,3 @@
-
 import pygame as pg
 import sys
 import numpy as np
@@ -36,23 +35,23 @@ def drawgrid(grid):
 
 def sim(grid):
     global rows, cols
-    newgrid = np.empty((rows,cols), dtype=int) 
+    newgrid = np.empty((rows,cols), dtype=int)
     N = rows
 
-    for i in range(rows): 
-        for j in range(cols): 
+    for i in range(rows):
+        for j in range(cols):
 
-            state = int(grid[i, (j-1)%N] + 
-                        grid[i, (j+1)%N] + 
+            state = int(grid[i, (j-1)%N] +
+                        grid[i, (j+1)%N] +
                         grid[(i-1)%N, j] +
-                        grid[(i+1)%N, j] + 
+                        grid[(i+1)%N, j] +
                         grid[(i-1)%N, (j-1)%N] +
-                        grid[(i-1)%N, (j+1)%N] + 
-                        grid[(i+1)%N, (j-1)%N] + 
-                        grid[(i+1)%N, (j+1)%N]) 
-            
+                        grid[(i-1)%N, (j+1)%N] +
+                        grid[(i+1)%N, (j-1)%N] +
+                        grid[(i+1)%N, (j+1)%N])
+
             if grid[i, j] == 1:
-                if (state < 2) or (state > 3):                     
+                if (state < 2) or (state > 3):
                     newgrid[i, j] = 0
                 elif (state == 2) or (state == 3):
                     newgrid[i, j] = 1
@@ -62,8 +61,8 @@ def sim(grid):
                     newgrid[i, j] = 1
                 else:
                     newgrid[i, j] = 0
- 
-            
+
+
             state = 0
 
     grid[:] = newgrid[:]
@@ -79,11 +78,12 @@ def main():
 
     while running :
         for event in pg.event.get():
+            key = pg.key.get_pressed()
             if event.type == pg.QUIT:
-                running = False 
-            elif event.type == pg.KEYDOWN and pg.K_q:
+                running = False
+            elif event.type == pg.KEYDOWN and key[pg.K_q]:
                     running = False
-                    
+
         screen.fill("black")
         sim(grid)
         drawgrid(grid)
